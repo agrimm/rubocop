@@ -388,7 +388,7 @@ Style/RedundantBegin:
   Enabled: true
 
 Style/RedundantException:
-  Description: "Checks for an obsolete RuntimeException argument in raise/fail."
+  Description: "Checks for a redundant RuntimeException argument in raise/fail."
   Enabled: true
 
 Style/RedundantReturn:
@@ -653,7 +653,7 @@ Lint/InvalidCharacterLiteral:
   Enabled: true
 
 Lint/LiteralInCondition:
-  Description: 'Checks of literals used in conditions.'
+  Description: 'Checks for literals used in conditions.'
   Enabled: true
 
 Lint/LiteralInInterpolation:
