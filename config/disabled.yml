@@ -4,6 +4,10 @@ Style/MethodCalledOnDoEndBlock:
   Description: 'Avoid chaining a method call on a do...end block.'
   Enabled: false
 
+Style/Spelling:
+  Description: 'Spell words correctly'
+  Enabled: false
+
 Style/SymbolArray:
   Description: 'Use %i or %I for arrays of symbols.'
   Enabled: false
