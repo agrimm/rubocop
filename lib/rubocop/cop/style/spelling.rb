@@ -5,6 +5,14 @@ module Rubocop
     module Style
       # Checks spelling
       class Spelling < Cop
+        def known_words
+          @known_words ||= determine_known_words
+        end
+
+        def determine_known_words
+          text = File.read('.dictionary')
+          Set.new(text.split("\n"))
+        end
       end
     end
   end
