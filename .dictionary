@@ -12,6 +12,7 @@ any
 anything
 application
 arg
+arg1
 args
 arguments
 around
@@ -136,6 +137,7 @@ finished
 first
 flatten
 for
+forces
 format
 formatter
 formatters
@@ -152,12 +154,14 @@ includes
 increment
 indent
 indentation
+ind
 index
 inject
 inner
 insert
 inspect
 inspector
+instead
 int
 interpolated
 interrupt
@@ -585,6 +589,7 @@ local
 logical
 long
 looks
+lv
 make
 matches
 matching
@@ -815,6 +820,8 @@ rb
 reg
 resbody
 sym
+wanted
+whitespace
 whitespaces
 yaml
 accessor
@@ -835,3 +842,19 @@ was
 >
 []
 ~
+recognized
+always
+encode
+present
+accumulator
+own
+overrides
+defs
+lineno
+joining
+property
+delegation
+ns
+instruction
+per
+q
