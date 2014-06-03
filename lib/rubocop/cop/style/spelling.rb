@@ -43,6 +43,18 @@ module Rubocop
           end
         end
 
+        def on_cvasgn(node)
+          cv_symbol = node.children.first
+          cv_name = cv_symbol.to_s[2..-1]
+          # ASSUMPTION: All local variables are split into words by underscores.
+          words = cv_name.split('_')
+          words.each do |word|
+            next if word.empty?
+            next if known_words.include?(word)
+            add_offense(node, :expression)
+          end
+        end
+
         def known_words
           @known_words ||= determine_known_words
         end
