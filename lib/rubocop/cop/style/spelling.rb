@@ -31,6 +31,18 @@ module Rubocop
           end
         end
 
+        def on_gvasgn(node)
+          gv_symbol = node.children.first
+          gv_name = gv_symbol.to_s[1..-1]
+          # ASSUMPTION: All local variables are split into words by underscores.
+          words = gv_name.split('_')
+          words.each do |word|
+            next if word.empty?
+            next if known_words.include?(word)
+            add_offense(node, :expression)
+          end
+        end
+
         def known_words
           @known_words ||= determine_known_words
         end

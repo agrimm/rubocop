@@ -19,4 +19,9 @@ describe Rubocop::Cop::Style::Spelling do
     inspect_source(cop, '@offence = Offense.new')
     expect(cop.offenses.size).to eq(1)
   end
+
+  it 'registers an offense for an incorrectly spelled global variable' do
+    inspect_source(cop, '$offence = Offense.new')
+    expect(cop.offenses.size).to eq(1)
+  end
 end
