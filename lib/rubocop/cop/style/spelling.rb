@@ -10,7 +10,7 @@ module Rubocop
         def on_lvasgn(node)
           lv_symbol = node.children.first
           lv_name = lv_symbol.to_s
-          # ASSUMPTION: All local variables are split into words by underscores.
+          # ASSUMPTION: All variables are split into words by underscores.
           words = lv_name.split('_')
           words.each do |word|
             next if word.empty?
@@ -22,7 +22,7 @@ module Rubocop
         def on_ivasgn(node)
           iv_symbol = node.children.first
           iv_name = iv_symbol.to_s[1..-1]
-          # ASSUMPTION: All local variables are split into words by underscores.
+          # ASSUMPTION: All variables are split into words by underscores.
           words = iv_name.split('_')
           words.each do |word|
             next if word.empty?
@@ -34,7 +34,7 @@ module Rubocop
         def on_gvasgn(node)
           gv_symbol = node.children.first
           gv_name = gv_symbol.to_s[1..-1]
-          # ASSUMPTION: All local variables are split into words by underscores.
+          # ASSUMPTION: All variables are split into words by underscores.
           words = gv_name.split('_')
           words.each do |word|
             next if word.empty?
@@ -46,7 +46,7 @@ module Rubocop
         def on_cvasgn(node)
           cv_symbol = node.children.first
           cv_name = cv_symbol.to_s[2..-1]
-          # ASSUMPTION: All local variables are split into words by underscores.
+          # ASSUMPTION: All variables are split into words by underscores.
           words = cv_name.split('_')
           words.each do |word|
             next if word.empty?
