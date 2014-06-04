@@ -34,4 +34,9 @@ describe Rubocop::Cop::Style::Spelling do
     inspect_source(cop, '@@offense = Offense.new')
     expect(cop.offenses).to be_empty
   end
+
+  it 'registers an offense for an incorrectly spelled constant' do
+    inspect_source(cop, 'Offence = Class.new')
+    expect(cop.offenses.size).to eq(1)
+  end
 end

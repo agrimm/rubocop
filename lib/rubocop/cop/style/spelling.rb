@@ -55,6 +55,19 @@ module Rubocop
           end
         end
 
+        def on_casgn(node)
+          casgn_symbol = node.children[1]
+          # ASSUMPTION: All constants are split into words by underscores.
+          # This assumption is invalid for class names.
+          casgn_name = casgn_symbol.to_s
+          words = casgn_name.split('_').map(&:downcase)
+          words.each do |word|
+            next if word.empty?
+            next if known_words.include?(word)
+            add_offense(node, :expression)
+          end
+        end
+
         def known_words
           @known_words ||= determine_known_words
         end
