@@ -98,6 +98,19 @@ module Rubocop
           end
         end
 
+        def on_argument(node)
+          return if node.children.empty?
+          argument_symbol = node.children.fetch(0)
+          argument_name = argument_symbol.to_s
+          # ASSUMPTION: All variables are split into words by underscores.
+          words = argument_name.split('_')
+          words.each do |word|
+            next if word.empty?
+            next if known_words.include?(word)
+            add_offense(node, :expression)
+          end
+        end
+
         def known_words
           @known_words ||= determine_known_words
         end

@@ -39,4 +39,54 @@ describe Rubocop::Cop::Style::Spelling do
     inspect_source(cop, 'Offence = Class.new')
     expect(cop.offenses.size).to eq(1)
   end
+
+  it 'registers an offense for an incorrectly spelled required argument' do
+    inspect_source(cop, 'def foo(offence); end')
+    expect(cop.offenses.size).to eq(1)
+  end
+
+  it 'registers an offense for an incorrectly spelled optional argument' do
+    inspect_source(cop, 'def foo(bar, offence = 1); end')
+    expect(cop.offenses.size).to eq(1)
+  end
+
+  it 'registers an offense for an incorrectly spelled splat argument' do
+    inspect_source(cop, 'def foo(bar, *offence); end')
+    expect(cop.offenses.size).to eq(1)
+  end
+
+  it 'does not register an offense for an unnamed splat argument' do
+    inspect_source(cop, 'def foo(*); end')
+    expect(cop.offenses.size).to eq(0)
+  end
+
+  it 'registers an offense for an block argument' do
+    inspect_source(cop, 'def foo(&offence); end')
+    expect(cop.offenses.size).to eq(1)
+  end
+
+  it 'registers an offense for a block shadow argument' do
+    inspect_source(cop, 'foo.each {|bar; offence|}')
+    expect(cop.offenses.size).to eq(1)
+  end
+
+  it 'registers an offense for a required keyword argument' do
+    inspect_source(cop, 'def foo(offence:); end')
+    expect(cop.offenses.size).to eq(1)
+  end
+
+  it 'registers an offense for an optional keyword argument' do
+    inspect_source(cop, 'def foo(offence: 42); end')
+    expect(cop.offenses.size).to eq(1)
+  end
+
+  it 'registers an offense for a named keyword splat argument' do
+    inspect_source(cop, 'def foo(bar:, **offence); end')
+    expect(cop.offenses.size).to eq(1)
+  end
+
+  it 'does not register an offense for an unnamed keyword splat argument' do
+    inspect_source(cop, 'def foo(bar:, **); end')
+    expect(cop.offenses.size).to eq(0)
+  end
 end
