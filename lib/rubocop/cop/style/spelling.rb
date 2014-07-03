@@ -36,6 +36,7 @@ module Rubocop
         # mlhs is always made up of other elements, so leave evaluation of spelling to them.
         # masgn is always made up of other elements, so leave evaluation of spelling to them.
         # const presumably refers to the use of existing constants. Try to examine the creation, not use, of constants.
+        # arg_expr, restarg_expr, and block_arg_expr are Ruby 1.8 only, which is not supported by RuboCop.
 
         def on_lvasgn(node)
           lv_symbol = node.children.first
