@@ -139,6 +139,18 @@ module Rubocop
           end
         end
 
+        def on_def(node)
+          def_symbol = node.children.first
+          def_name = def_symbol.to_s.gsub(/[?!=~<>]+/, '')
+          # ASSUMPTION: All method names are split into words by underscores.
+          words = def_name.split('_')
+          words.each do |word|
+            next if word.empty?
+            next if known_words.include?(word)
+            add_offense(node, :expression)
+          end
+        end
+
         def known_words
           @known_words ||= determine_known_words
         end
