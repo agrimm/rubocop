@@ -129,4 +129,14 @@ describe Rubocop::Cop::Style::Spelling do
     inspect_source(cop, 'def self.offence; end')
     expect(cop.offenses.size).to eq(1)
   end
+
+  it 'registers an offense for method aliasing' do
+    inspect_source(cop, 'alias offence :foo')
+    expect(cop.offenses.size).to eq(1)
+  end
+
+  it 'registers an offense for global variable aliasing' do
+    inspect_source(cop, 'alias $offence $foo')
+    expect(cop.offenses.size).to eq(1)
+  end
 end

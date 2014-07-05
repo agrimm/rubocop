@@ -164,6 +164,18 @@ module Rubocop
           end
         end
 
+        def on_alias(node)
+          alias_symbol = node.children.first.children.first
+          alias_name = alias_symbol.to_s.gsub(/[?!=~<>]+/, '')
+          # ASSUMPTION: All method names are split into words by underscores.
+          words = alias_name.split('_')
+          words.each do |word|
+            next if word.empty?
+            next if known_words.include?(word)
+            add_offense(node, :expression)
+          end
+        end
+
         def known_words
           @known_words ||= determine_known_words
         end
