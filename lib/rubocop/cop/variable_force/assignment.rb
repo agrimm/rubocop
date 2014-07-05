@@ -78,11 +78,11 @@ module Rubocop
             return @meta_assignment_node = parent_node
           end
 
-          return unless grantparent_node
+          return unless grandparent_node
 
           if parent_node.type == MULTIPLE_LEFT_HAND_SIDE_TYPE &&
-             grantparent_node.type == MULTIPLE_ASSIGNMENT_TYPE
-            return @meta_assignment_node = grantparent_node
+             grandparent_node.type == MULTIPLE_ASSIGNMENT_TYPE
+            return @meta_assignment_node = grandparent_node
           end
 
           nil
@@ -94,7 +94,7 @@ module Rubocop
           ancestor_nodes_in_scope.last
         end
 
-        def grantparent_node
+        def grandparent_node
           ancestor_nodes_in_scope[-2]
         end
       end
