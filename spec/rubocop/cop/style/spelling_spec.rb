@@ -89,4 +89,24 @@ describe Rubocop::Cop::Style::Spelling do
     inspect_source(cop, 'def foo(bar:, **); end')
     expect(cop.offenses.size).to eq(0)
   end
+
+  it 'registers an offense for a module definition' do
+    inspect_source(cop, 'module Offence; end')
+    expect(cop.offenses.size).to eq(1)
+  end
+
+  it 'does not register an offense for a correctly spelled module definition' do
+    inspect_source(cop, 'module Offense; end')
+    expect(cop.offenses).to be_empty
+  end
+
+  it 'does not register an offense for an acronym followed by a word' do
+    inspect_source(cop, 'module MRICop; end')
+    expect(cop.offenses).to be_empty
+  end
+
+  it 'registers an offense for a class definition' do
+    inspect_source(cop, 'class Offence; end')
+    expect(cop.offenses.size).to eq(1)
+  end
 end

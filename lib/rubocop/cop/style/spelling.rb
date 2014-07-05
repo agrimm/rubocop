@@ -37,6 +37,7 @@ module Rubocop
         # masgn is always made up of other elements, so leave evaluation of spelling to them.
         # const presumably refers to the use of existing constants. Try to examine the creation, not use, of constants.
         # arg_expr, restarg_expr, and block_arg_expr are Ruby 1.8 only, which is not supported by RuboCop.
+        # sclass refers to the use of an existing variable. Try to examine the creation, not use, of variables.
 
         def on_lvasgn(node)
           lv_symbol = node.children.first
@@ -106,6 +107,32 @@ module Rubocop
           # ASSUMPTION: All variables are split into words by underscores.
           words = argument_name.split('_')
           words.each do |word|
+            next if word.empty?
+            next if known_words.include?(word)
+            add_offense(node, :expression)
+          end
+        end
+
+        def on_module(node)
+          module_symbol = node.children.fetch(0).children.fetch(1)
+          module_name = module_symbol.to_s
+          # REVIEW: Is there a good way of turning CamelCase names into words?
+          words = module_name.scan(/[A-Z][^A-Z]*/).map(&:downcase)
+          words.each do |word|
+            # REVIEW: What about one letter words?
+            next if word.empty?
+            next if known_words.include?(word)
+            add_offense(node, :expression)
+          end
+        end
+
+        def on_class(node)
+          class_symbol = node.children.fetch(0).children.fetch(1)
+          class_name = class_symbol.to_s
+          # REVIEW: Is there a good way of turning CamelCase names into words?
+          words = class_name.scan(/[A-Z][^A-Z]*/).map(&:downcase)
+          words.each do |word|
+            # REVIEW: What about one letter words?
             next if word.empty?
             next if known_words.include?(word)
             add_offense(node, :expression)
