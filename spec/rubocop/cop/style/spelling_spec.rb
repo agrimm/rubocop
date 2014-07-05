@@ -124,4 +124,9 @@ describe Rubocop::Cop::Style::Spelling do
     inspect_source(cop, 'def cop=; end')
     expect(cop.offenses).to be_empty
   end
+
+  it 'registers an offense for singleton method definition' do
+    inspect_source(cop, 'def self.offence; end')
+    expect(cop.offenses.size).to eq(1)
+  end
 end

@@ -38,6 +38,7 @@ module Rubocop
         # const presumably refers to the use of existing constants. Try to examine the creation, not use, of constants.
         # arg_expr, restarg_expr, and block_arg_expr are Ruby 1.8 only, which is not supported by RuboCop.
         # sclass refers to the use of an existing variable. Try to examine the creation, not use, of variables.
+        # undef refers to an existing method. Try to examine the creation, not use, of methods.
 
         def on_lvasgn(node)
           lv_symbol = node.children.first
@@ -144,6 +145,18 @@ module Rubocop
           def_name = def_symbol.to_s.gsub(/[?!=~<>]+/, '')
           # ASSUMPTION: All method names are split into words by underscores.
           words = def_name.split('_')
+          words.each do |word|
+            next if word.empty?
+            next if known_words.include?(word)
+            add_offense(node, :expression)
+          end
+        end
+
+        def on_defs(node)
+          defs_symbol = node.children.fetch(1)
+          defs_name = defs_symbol.to_s.gsub(/[?!=~<>]+/, '')
+          # ASSUMPTION: All method names are split into words by underscores.
+          words = defs_name.split('_')
           words.each do |word|
             next if word.empty?
             next if known_words.include?(word)
