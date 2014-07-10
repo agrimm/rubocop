@@ -5,7 +5,6 @@ module Rubocop
     module Style
       # TODO: Add automatic generation of the dictionary file.
       # TODO: Add handling of camelCase variables.
-      # TODO: Add handling of more syntax, such as on_def.
       # TODO: Add more informative message for incorrectly spelled words.
       # TODO: Reduce repetition in code.
       # TODO: Ensure this works on other projects.
@@ -39,6 +38,23 @@ module Rubocop
         # arg_expr, restarg_expr, and block_arg_expr are Ruby 1.8 only, which is not supported by RuboCop.
         # sclass refers to the use of an existing variable. Try to examine the creation, not use, of variables.
         # undef refers to an existing method. Try to examine the creation, not use, of methods.
+        # block refers to an existing method, plus arguments. Try to examine the creation, not use, of methods. The arguments are already examined.
+        # condition's evaluation refers to existing variables or the like. Try to examine the creation, not use, of variables.
+        # return refers to the use of an existing variable. Try to examine the creation, not use, of variables.
+        # break refers to the use of an existing variable. Try to examine the creation, not use, of variables.
+        # next refers to the use of an existing variable. Try to examine the creation, not use, of variables.
+        # redo and retry don't use any other expressions.
+        # super refers to the use of an existing variable. Try to examine the creation, not use, of variables.
+        # yield refers to the use of an existing variable. Try to examine the creation, not use, of variables.
+        # defined? refers to the use of an existing variable. Try to examine the creation, not use, of variables.
+        # not, and, and or refer to the use of an existing variable. Try to examine the creation, not use, of variables.
+        # if, when, case, iflipflop, and eflipflop refer to the use of an existing variable. Try to examine the creation, not use, of variables.
+        # match-current-line and match-with-lvasgn refer to the use of an existing variable. Try to examine the creation, not use, of variables.
+        # resbody is always made up of other elements, so leave evaluation of spelling to them.
+        # rescue is always made up of other elements, so leave evaluation of spelling to them.
+        # begin is always made up of other elements, so leave evaluation of spelling to them.
+        # kwbegin is always made up of other elements, so leave evaluation of spelling to them.
+        # preexe and postexe are always made up of other elements, so leave evaluation of spelling to them.
 
         def on_lvasgn(node)
           lv_symbol = node.children.first

@@ -139,4 +139,9 @@ describe Rubocop::Cop::Style::Spelling do
     inspect_source(cop, 'alias $offence $foo')
     expect(cop.offenses.size).to eq(1)
   end
+
+  it 'registers an offense for an assigned variable in a for loop' do
+    inspect_source(cop, 'for offence in offenses; end')
+    expect(cop.offenses.size).to eq(1)
+  end
 end
