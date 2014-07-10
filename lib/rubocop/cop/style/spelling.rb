@@ -17,45 +17,6 @@ module Rubocop
 
         # Descriptions in https://github.com/whitequark/parser/blob/master/doc/AST_FORMAT.md
 
-        # dstr means "String with interpolation". Strings are content, and content may or may not be correctly spelled.
-        # dsym means "Symbol with interpolation". Symbols are content, and content may or may not be correctly spelled.
-        # regexp means "Regexp". Regular expressions do not obey spelling.
-        # xstr means "Execute-string". System commands do not obey spelling.
-        # splat means "Splat". It always contains a lvar, so leave evaluation of spelling to on_lvar.
-        # array means "Array". It is always made up of other elements, so leave evaluation of spelling to them.
-        # pair is always made up of other elements, so leave evaluation of spelling to them.
-        # hash is always made up of other elements, so leave evaluation of spelling to them.
-        # irange is always made up of other elements, so leave evaluation of spelling to them.
-        # erange is always made up of other elements, so leave evaluation of spelling to them.
-        # var appears to be a parent type of lvar, ivar, gvar, cvar, back_ref, nth_ref. Defer for now.
-        # lvar, ivar, gvar, cvar, back_ref, nth_ref presumably refer to the use of existing variables. Try to examine the creation, not use, of variables.
-        # and-asgn is always made up of other elements, so leave evaluation of spelling to them.
-        # or-asgn is always made up of other elements, so leave evaluation of spelling to them.
-        # op-asgn is always made up of other elements, so leave evaluation of spelling to them.
-        # mlhs is always made up of other elements, so leave evaluation of spelling to them.
-        # masgn is always made up of other elements, so leave evaluation of spelling to them.
-        # const presumably refers to the use of existing constants. Try to examine the creation, not use, of constants.
-        # arg_expr, restarg_expr, and block_arg_expr are Ruby 1.8 only, which is not supported by RuboCop.
-        # sclass refers to the use of an existing variable. Try to examine the creation, not use, of variables.
-        # undef refers to an existing method. Try to examine the creation, not use, of methods.
-        # block refers to an existing method, plus arguments. Try to examine the creation, not use, of methods. The arguments are already examined.
-        # condition's evaluation refers to existing variables or the like. Try to examine the creation, not use, of variables.
-        # return refers to the use of an existing variable. Try to examine the creation, not use, of variables.
-        # break refers to the use of an existing variable. Try to examine the creation, not use, of variables.
-        # next refers to the use of an existing variable. Try to examine the creation, not use, of variables.
-        # redo and retry don't use any other expressions.
-        # super refers to the use of an existing variable. Try to examine the creation, not use, of variables.
-        # yield refers to the use of an existing variable. Try to examine the creation, not use, of variables.
-        # defined? refers to the use of an existing variable. Try to examine the creation, not use, of variables.
-        # not, and, and or refer to the use of an existing variable. Try to examine the creation, not use, of variables.
-        # if, when, case, iflipflop, and eflipflop refer to the use of an existing variable. Try to examine the creation, not use, of variables.
-        # match-current-line and match-with-lvasgn refer to the use of an existing variable. Try to examine the creation, not use, of variables.
-        # resbody is always made up of other elements, so leave evaluation of spelling to them.
-        # rescue is always made up of other elements, so leave evaluation of spelling to them.
-        # begin is always made up of other elements, so leave evaluation of spelling to them.
-        # kwbegin is always made up of other elements, so leave evaluation of spelling to them.
-        # preexe and postexe are always made up of other elements, so leave evaluation of spelling to them.
-
         def on_lvasgn(node)
           lv_symbol = node.children.first
           lv_name = lv_symbol.to_s
