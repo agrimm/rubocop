@@ -40,6 +40,16 @@ describe Rubocop::Cop::Style::Spelling do
     expect(cop.offenses.size).to eq(1)
   end
 
+  it 'registers an offense for an incorrectly spelled top-level constant' do
+    inspect_source(cop, '::Offence = Class.new')
+    expect(cop.offenses.size).to eq(1)
+  end
+
+  it 'registers an offense for an incorrectly spelled scoped constant' do
+    inspect_source(cop, 'a::Offence = Class.new')
+    expect(cop.offenses.size).to eq(1)
+  end
+
   it 'registers an offense for an incorrectly spelled required argument' do
     inspect_source(cop, 'def foo(offence); end')
     expect(cop.offenses.size).to eq(1)
