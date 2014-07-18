@@ -4,7 +4,6 @@ module Rubocop
   module Cop
     module Style
       # TODO: Add automatic generation of the dictionary file.
-      # TODO: Add handling of camelCase variables.
       # TODO: Add more informative message for incorrectly spelled words.
       # TODO: Reduce repetition in code.
       # TODO: Ensure this works on other projects.
@@ -20,8 +19,7 @@ module Rubocop
         def on_vasgn(node)
           v_symbol = node.children.first
           v_name = v_symbol.to_s.gsub(/[$@]/, '')
-          # ASSUMPTION: All variables are split into words by underscores.
-          words = v_name.split('_')
+          words = split_lower_case(v_name)
           words.each do |word|
             next if word.empty?
             next if known_words.include?(word)
@@ -34,7 +32,7 @@ module Rubocop
           # ASSUMPTION: All constants are split into words by underscores.
           # This assumption is invalid for class names.
           casgn_name = casgn_symbol.to_s
-          words = casgn_name.split('_').map(&:downcase)
+          words = split_upper_case(casgn_name)
           words.each do |word|
             next if word.empty?
             next if known_words.include?(word)
@@ -46,8 +44,7 @@ module Rubocop
           return if node.children.empty?
           argument_symbol = node.children.fetch(0)
           argument_name = argument_symbol.to_s
-          # ASSUMPTION: All variables are split into words by underscores.
-          words = argument_name.split('_')
+          words = split_lower_case(argument_name)
           words.each do |word|
             next if word.empty?
             next if known_words.include?(word)
@@ -58,8 +55,7 @@ module Rubocop
         def on_module(node)
           module_symbol = node.children.fetch(0).children.fetch(1)
           module_name = module_symbol.to_s
-          # REVIEW: Is there a good way of turning CamelCase names into words?
-          words = module_name.scan(/[A-Z][^A-Z]*/).map(&:downcase)
+          words = split_upper_case(module_name)
           words.each do |word|
             # REVIEW: What about one letter words?
             next if word.empty?
@@ -71,8 +67,7 @@ module Rubocop
         def on_class(node)
           class_symbol = node.children.fetch(0).children.fetch(1)
           class_name = class_symbol.to_s
-          # REVIEW: Is there a good way of turning CamelCase names into words?
-          words = class_name.scan(/[A-Z][^A-Z]*/).map(&:downcase)
+          words = split_upper_case(class_name)
           words.each do |word|
             # REVIEW: What about one letter words?
             next if word.empty?
@@ -84,8 +79,7 @@ module Rubocop
         def on_def(node)
           def_symbol = node.children.first
           def_name = def_symbol.to_s.gsub(/[?!=~<>]+/, '')
-          # ASSUMPTION: All method names are split into words by underscores.
-          words = def_name.split('_')
+          words = split_lower_case(def_name)
           words.each do |word|
             next if word.empty?
             next if known_words.include?(word)
@@ -96,8 +90,7 @@ module Rubocop
         def on_defs(node)
           defs_symbol = node.children.fetch(1)
           defs_name = defs_symbol.to_s.gsub(/[?!=~<>]+/, '')
-          # ASSUMPTION: All method names are split into words by underscores.
-          words = defs_name.split('_')
+          words = split_lower_case(defs_name)
           words.each do |word|
             next if word.empty?
             next if known_words.include?(word)
@@ -108,12 +101,28 @@ module Rubocop
         def on_alias(node)
           alias_symbol = node.children.first.children.first
           alias_name = alias_symbol.to_s.gsub(/[?!=~<>]+/, '')
-          # ASSUMPTION: All method names are split into words by underscores.
-          words = alias_name.split('_')
+          words = split_lower_case(alias_name)
           words.each do |word|
             next if word.empty?
             next if known_words.include?(word)
             add_offense(node, :expression)
+          end
+        end
+
+        def split_lower_case(name)
+          if name.include?('_')
+            name.split('_')
+          else
+            name.scan(/.[^A-Z]*/).map(&:downcase)
+          end
+        end
+
+        def split_upper_case(name)
+          if name.include?('_')
+            name.split('_').map(&:downcase)
+          else
+            # REVIEW: Is there a good way of turning CamelCase names into words?
+            name.scan(/[A-Z][^A-Z]*/).map(&:downcase)
           end
         end
 

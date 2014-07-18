@@ -40,6 +40,16 @@ describe Rubocop::Cop::Style::Spelling do
     expect(cop.offenses.size).to eq(1)
   end
 
+  it 'can split class or module names with CamelCase' do
+    inspect_source(cop, 'OffenseOffense = Class.new')
+    expect(cop.offenses).to be_empty
+  end
+
+  it 'can split constants with underscores' do
+    inspect_source(cop, 'OFFENSE_OFFENSE = 42')
+    expect(cop.offenses).to be_empty
+  end
+
   it 'registers an offense for an incorrectly spelled top-level constant' do
     inspect_source(cop, '::Offence = Class.new')
     expect(cop.offenses.size).to eq(1)
@@ -153,5 +163,10 @@ describe Rubocop::Cop::Style::Spelling do
   it 'registers an offense for an assigned variable in a for loop' do
     inspect_source(cop, 'for offence in offenses; end')
     expect(cop.offenses.size).to eq(1)
+  end
+
+  it 'splits camelCase variables into words' do
+    inspect_source(cop, 'offenseOffense = Offense.new')
+    expect(cop.offenses).to be_empty
   end
 end
