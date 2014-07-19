@@ -4,12 +4,11 @@ module Rubocop
   module Cop
     module Style
       # TODO: Add automatic generation of the dictionary file.
-      # TODO: Add more informative message for incorrectly spelled words.
       # TODO: Reduce repetition in code.
       # TODO: Ensure this works on other projects.
       # Checks spelling
       class Spelling < Cop
-        MSG = 'Incorrectly spelled word'
+        MSG = 'Incorrectly spelled word %s'
 
         # rubocop:disable Style/LineLength
         # Listed as in the same order in Parser::AST::Processor
@@ -23,7 +22,7 @@ module Rubocop
           words.each do |word|
             next if word.empty?
             next if known_words.include?(word)
-            add_offense(node, :expression)
+            add_offense(node, :expression, format(MSG, word))
           end
         end
 
@@ -36,7 +35,7 @@ module Rubocop
           words.each do |word|
             next if word.empty?
             next if known_words.include?(word)
-            add_offense(node, :expression)
+            add_offense(node, :expression, format(MSG, word))
           end
         end
 
@@ -48,7 +47,7 @@ module Rubocop
           words.each do |word|
             next if word.empty?
             next if known_words.include?(word)
-            add_offense(node, :expression)
+            add_offense(node, :expression, format(MSG, word))
           end
         end
 
@@ -60,7 +59,7 @@ module Rubocop
             # REVIEW: What about one letter words?
             next if word.empty?
             next if known_words.include?(word)
-            add_offense(node, :expression)
+            add_offense(node, :expression, format(MSG, word))
           end
         end
 
@@ -72,7 +71,7 @@ module Rubocop
             # REVIEW: What about one letter words?
             next if word.empty?
             next if known_words.include?(word)
-            add_offense(node, :expression)
+            add_offense(node, :expression, format(MSG, word))
           end
         end
 
@@ -83,7 +82,7 @@ module Rubocop
           words.each do |word|
             next if word.empty?
             next if known_words.include?(word)
-            add_offense(node, :expression)
+            add_offense(node, :expression, format(MSG, word))
           end
         end
 
@@ -94,7 +93,7 @@ module Rubocop
           words.each do |word|
             next if word.empty?
             next if known_words.include?(word)
-            add_offense(node, :expression)
+            add_offense(node, :expression, format(MSG, word))
           end
         end
 
@@ -105,7 +104,7 @@ module Rubocop
           words.each do |word|
             next if word.empty?
             next if known_words.include?(word)
-            add_offense(node, :expression)
+            add_offense(node, :expression, format(MSG, word))
           end
         end
 
