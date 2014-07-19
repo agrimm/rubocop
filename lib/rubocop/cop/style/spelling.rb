@@ -118,11 +118,11 @@ module Rubocop
         end
 
         def split_upper_case(name)
-          if name.include?('_')
-            name.split('_').map(&:downcase)
-          else
+          if name =~ /[a-z]/
             # REVIEW: Is there a good way of turning CamelCase names into words?
             name.scan(/[A-Z][^A-Z]*/).map(&:downcase)
+          else
+            name.split('_').map(&:downcase)
           end
         end
 
