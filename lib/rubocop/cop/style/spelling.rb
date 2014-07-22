@@ -103,7 +103,9 @@ module Rubocop
         end
 
         def determine_known_words
-          text = File.read('.dictionary')
+          dictionary_filename = cop_config['Dictionary']
+          fail "Dictionary not found: #{dictionary_filename}" unless File.exist?(dictionary_filename)
+          text = File.read(dictionary_filename)
           Set.new(text.split("\n"))
         end
       end

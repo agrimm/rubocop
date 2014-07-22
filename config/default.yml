@@ -397,6 +397,9 @@ Style/SpaceInsideHashLiteralBraces:
     - space
     - no_space
 
+Style/Spelling:
+  Dictionary: .dictionary
+
 Style/TrailingBlankLines:
   EnforcedStyle: final_newline
   SupportedStyles:
