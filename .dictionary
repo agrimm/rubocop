@@ -1056,3 +1056,5 @@ writers
 xstr
 qualified
 inherited
+lower
+upper
