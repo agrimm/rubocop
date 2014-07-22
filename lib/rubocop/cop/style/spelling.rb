@@ -9,10 +9,10 @@ module Rubocop
       class Spelling < Cop
         MSG = 'Incorrectly spelled word %s'
 
-        # rubocop:disable Style/LineLength
         # Listed as in the same order in Parser::AST::Processor
 
-        # Descriptions in https://github.com/whitequark/parser/blob/master/doc/AST_FORMAT.md
+        # Descriptions in
+        # https://github.com/whitequark/parser/blob/master/doc/AST_FORMAT.md
 
         def on_vasgn(node)
           v_symbol = node.children.first
