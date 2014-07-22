@@ -4,7 +4,6 @@ module Rubocop
   module Cop
     module Style
       # TODO: Add automatic generation of the dictionary file.
-      # TODO: Reduce repetition in code.
       # TODO: Ensure this works on other projects.
       # Checks spelling
       class Spelling < Cop
@@ -19,11 +18,7 @@ module Rubocop
           v_symbol = node.children.first
           v_name = v_symbol.to_s.gsub(/[$@]/, '')
           words = split_lower_case(v_name)
-          words.each do |word|
-            next if word.empty?
-            next if known_words.include?(word)
-            add_offense(node, :expression, format(MSG, word))
-          end
+          inspect_words(node, words)
         end
 
         def on_casgn(node)
@@ -32,11 +27,7 @@ module Rubocop
           # This assumption is invalid for class names.
           casgn_name = casgn_symbol.to_s
           words = split_upper_case(casgn_name)
-          words.each do |word|
-            next if word.empty?
-            next if known_words.include?(word)
-            add_offense(node, :expression, format(MSG, word))
-          end
+          inspect_words(node, words)
         end
 
         def on_argument(node)
@@ -44,63 +35,47 @@ module Rubocop
           argument_symbol = node.children.fetch(0)
           argument_name = argument_symbol.to_s
           words = split_lower_case(argument_name)
-          words.each do |word|
-            next if word.empty?
-            next if known_words.include?(word)
-            add_offense(node, :expression, format(MSG, word))
-          end
+          inspect_words(node, words)
         end
 
         def on_module(node)
           module_symbol = node.children.fetch(0).children.fetch(1)
           module_name = module_symbol.to_s
+          # REVIEW: What about one letter words?
           words = split_upper_case(module_name)
-          words.each do |word|
-            # REVIEW: What about one letter words?
-            next if word.empty?
-            next if known_words.include?(word)
-            add_offense(node, :expression, format(MSG, word))
-          end
+          inspect_words(node, words)
         end
 
         def on_class(node)
           class_symbol = node.children.fetch(0).children.fetch(1)
           class_name = class_symbol.to_s
+          # REVIEW: What about one letter words?
           words = split_upper_case(class_name)
-          words.each do |word|
-            # REVIEW: What about one letter words?
-            next if word.empty?
-            next if known_words.include?(word)
-            add_offense(node, :expression, format(MSG, word))
-          end
+          inspect_words(node, words)
         end
 
         def on_def(node)
           def_symbol = node.children.first
           def_name = def_symbol.to_s.gsub(/[?!=~<>]+/, '')
           words = split_lower_case(def_name)
-          words.each do |word|
-            next if word.empty?
-            next if known_words.include?(word)
-            add_offense(node, :expression, format(MSG, word))
-          end
+          inspect_words(node, words)
         end
 
         def on_defs(node)
           defs_symbol = node.children.fetch(1)
           defs_name = defs_symbol.to_s.gsub(/[?!=~<>]+/, '')
           words = split_lower_case(defs_name)
-          words.each do |word|
-            next if word.empty?
-            next if known_words.include?(word)
-            add_offense(node, :expression, format(MSG, word))
-          end
+          inspect_words(node, words)
         end
 
         def on_alias(node)
           alias_symbol = node.children.first.children.first
           alias_name = alias_symbol.to_s.gsub(/[?!=~<>]+/, '')
           words = split_lower_case(alias_name)
+          inspect_words(node, words)
+        end
+
+        def inspect_words(node, words)
           words.each do |word|
             next if word.empty?
             next if known_words.include?(word)
