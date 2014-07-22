@@ -23,8 +23,6 @@ module Rubocop
 
         def on_casgn(node)
           casgn_symbol = node.children[1]
-          # ASSUMPTION: All constants are split into words by underscores.
-          # This assumption is invalid for class names.
           casgn_name = casgn_symbol.to_s
           words = split_upper_case(casgn_name)
           inspect_words(node, words)
