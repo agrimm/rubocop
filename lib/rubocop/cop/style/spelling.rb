@@ -4,7 +4,7 @@ module Rubocop
   module Cop
     module Style
       # TODO: Add automatic generation of the dictionary file.
-      # TODO: Ensure this works on other projects.
+      # TODO: Add handling of dictionary filename.
       # Checks spelling
       class Spelling < Cop
         MSG = 'Incorrectly spelled word %s'
